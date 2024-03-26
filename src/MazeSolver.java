@@ -5,6 +5,7 @@
  */
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class MazeSolver {
     private Maze maze;
@@ -28,8 +29,20 @@ public class MazeSolver {
      */
     public ArrayList<MazeCell> getSolution() {
         // TODO: Get the solution from the maze
+        Stack<MazeCell> reverseSol = new Stack<MazeCell>();
+        ArrayList<MazeCell> sol = new ArrayList<MazeCell>();
+        reverseSol.push(maze.getEndCell());
+        MazeCell curr = maze.getEndCell().getParent();
+        while (curr != null) {
+            reverseSol.push(curr);
+            curr = curr.getParent();
+        }
+        int size = reverseSol.size();
+        for (int i = 0; i < size; i++) {
+            sol.add(reverseSol.pop());
+        }
         // Should be from start to end cells
-        return null;
+        return sol;
     }
 
     /**
