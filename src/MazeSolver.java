@@ -31,10 +31,14 @@ public class MazeSolver {
      */
     public ArrayList<MazeCell> getSolution() {
         // TODO: Get the solution from the maze
+        // Since going from end to start, have to flip the order of cells so its start to end cells
+        // Stack last in first out will reverse
         Stack<MazeCell> reverseSol = new Stack<MazeCell>();
         ArrayList<MazeCell> sol = new ArrayList<MazeCell>();
         reverseSol.push(maze.getEndCell());
+        // Trace way back to start
         MazeCell curr = maze.getEndCell().getParent();
+        // Curr will be null once reached the start (once done finding path)
         while (curr != null) {
             reverseSol.push(curr);
             curr = curr.getParent();
@@ -56,29 +60,37 @@ public class MazeSolver {
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
         MazeCell curr = maze.getStartCell();
         Stack<MazeCell> s = new Stack<>();
+        // Goes until reaches the end
         while (curr != maze.getEndCell()) {
             int row = curr.getRow();
             int col = curr.getCol();
+            // Checks if north cell is a valid cell
             if (maze.isValidCell(row - 1, col)) {
+                // Add it to the stack to later be searched
                 s.push(maze.getCell(row - 1, col));
+                // Assign it it's parent so can later look back on cells
                 maze.getCell(row - 1, col).setParent(curr);
                 maze.getCell(row - 1, col).setExplored(true);
             }
+            // Checks if East cell is a valid cell and repeats same steps
             if (maze.isValidCell(row, col + 1)) {
                 s.push(maze.getCell(row, col + 1));
                 maze.getCell(row, col + 1).setParent(curr);
                 maze.getCell(row, col + 1).setExplored(true);
             }
+            // Checks if South is a valid cell
             if (maze.isValidCell(row + 1, col)) {
                 s.push(maze.getCell(row + 1, col));
                 maze.getCell(row + 1, col).setParent(curr);
                 maze.getCell(row + 1, col).setExplored(true);
             }
+            // Checks if West is a valid cell
             if (maze.isValidCell(row, col - 1)) {
                 s.push(maze.getCell(row, col - 1));
                 maze.getCell(row, col - 1).setParent(curr);
                 maze.getCell(row, col - 1).setExplored(true);
             }
+            // Repeat process with the cell on the top of the stack
             curr = s.pop();
         }
         return getSolution();
@@ -92,6 +104,7 @@ public class MazeSolver {
         // TODO: Use BFS to solve the maze
         // Explore the cells in the order: NORTH, EAST, SOUTH, WEST
         MazeCell curr = maze.getStartCell();
+        // Exactly the same as DFS, but using a Queue to get the cell that was first in and checking from there
         Queue<MazeCell> q = new LinkedList<>();
         while (curr != maze.getEndCell()) {
             int row = curr.getRow();

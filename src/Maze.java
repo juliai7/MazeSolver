@@ -147,12 +147,15 @@ public class Maze {
      */
     public boolean isValidCell(int row, int col) {
         // TODO: Complete this function
+        // Checks if its outside the perimeter on the left and top
         if (row < 0 || col < 0) {
             return false;
         }
+        // Checks if its outside perimeter on right and bottom
         else if (row >= numRows || col >= numRows) {
             return false;
         }
+        // If the cell has been explored or is a wall
         else if (mazeGrid[row][col].isExplored() || mazeGrid[row][col].isWall()) {
             return false;
         }
