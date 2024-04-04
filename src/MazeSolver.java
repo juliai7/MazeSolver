@@ -90,7 +90,7 @@ public class MazeSolver {
                 maze.getCell(row, col - 1).setParent(curr);
                 maze.getCell(row, col - 1).setExplored(true);
             }
-            // Repeat process with the cell on the top of the stack
+            // Continues same process with the cell on the top of the stack
             curr = s.pop();
         }
         return getSolution();
